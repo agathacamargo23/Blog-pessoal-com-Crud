@@ -15,9 +15,6 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
-
-
 @Entity
 @Table(name = "tb_postagem")
 public class PostagemModel {
@@ -40,6 +37,10 @@ public class PostagemModel {
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new java.sql.Date(System.currentTimeMillis());
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Usuario usuario;
 
 	public long getId() {
 		return id;
@@ -65,16 +66,6 @@ public class PostagemModel {
 		this.texto = texto;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-		
-		
-	}
-
 	public Tema getTema() {
 		return tema;
 	}
@@ -82,4 +73,21 @@ public class PostagemModel {
 	public void setTema(Tema tema) {
 		this.tema = tema;
 	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
 }
