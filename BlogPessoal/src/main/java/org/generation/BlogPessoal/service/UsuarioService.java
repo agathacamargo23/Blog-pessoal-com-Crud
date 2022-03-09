@@ -3,15 +3,14 @@ package org.generation.BlogPessoal.service;
 import java.nio.charset.Charset;
 import java.util.Optional;
 
-
+import org.apache.commons.codec.binary.Base64;
 import org.generation.BlogPessoal.Model.Usuario;
 import org.generation.BlogPessoal.Model.UsuarioLogin;
 import org.generation.BlogPessoal.Repository.UsuarioRepository;
-import org.apache.commons.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired; 
-import org.springframework.http.HttpStatus; 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; 
-import org.springframework.stereotype.Service; 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -63,7 +62,7 @@ public class UsuarioService {
 				usuarioLogin.get().setId(usuario.get().getId());
 				usuarioLogin.get().setNome(usuario.get().getNome());
 				usuarioLogin.get().setFoto(usuario.get().getFoto());
-				usuarioLogin.get().setToken(generateBasicToken(usuario.get().getUsuario(), usuarioLogin.get().getSenha()));
+				usuarioLogin.get().setToken(generateBasicToken(usuarioLogin.get().getUsuario(), usuarioLogin.get().getSenha()));
 				usuarioLogin.get().setSenha(usuario.get().getSenha());
 				
 				return usuarioLogin;
@@ -84,7 +83,7 @@ public class UsuarioService {
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-		return encoder.matches(senhaDigitada, senhaDigitada);
+		return encoder.matches(senhaDigitada, senhaBanco);
 		
 	}
 	
@@ -95,5 +94,7 @@ public class UsuarioService {
 		return "Basic " + new String(tokenBase64);
 		
 	}
+
+	
 }
 
